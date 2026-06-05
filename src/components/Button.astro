@@ -27,8 +27,10 @@ const variants: Record<string, string> = {
     'bg-amber text-espresso shadow-sm hover:bg-amber-600 hover:-translate-y-0.5 hover:shadow-md active:translate-y-0',
   solid:
     'bg-forest text-cream hover:bg-forest-700 hover:-translate-y-0.5 hover:shadow-md active:translate-y-0',
+  // Designed to sit over the hero video — translucent dark backing + blur keeps
+  // it legible over bright or dark frames alike.
   outline:
-    'border border-current text-current hover:bg-current/10 hover:-translate-y-0.5',
+    'border border-cream/70 bg-espresso/25 text-cream backdrop-blur-sm shadow-sm hover:bg-espresso/45 hover:border-cream hover:-translate-y-0.5',
 };
 
 const cls = `${base} ${variants[variant]} ${className}`;
