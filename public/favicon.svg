@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" role="img" aria-label="Merrill Foods icon">
+  <title>Merrill Foods — favicon / app icon</title>
+
+  <!-- Vessel/crate tile -->
+  <rect x="0" y="0" width="128" height="128" rx="26" fill="#1F3D2B"/>
+
+  <!-- M monogram in cream -->
+  <path d="M 30 96 L 30 32 L 64 70 L 98 32 L 98 96"
+        fill="none" stroke="#F5EFE2" stroke-width="11"
+        stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Gold leaf in the valley -->
+  <path d="M 64 88 C 52 74, 52 54, 64 40 C 76 54, 76 74, 64 88 Z"
+        fill="#C8902F"/>
+  <path d="M 64 83 L 64 47" fill="none" stroke="#1F3D2B" stroke-width="3"
+        stroke-linecap="round"/>
+</svg>

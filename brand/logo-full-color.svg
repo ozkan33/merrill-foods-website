@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 200" width="600" height="200" role="img" aria-label="Merrill Foods">
+  <title>Merrill Foods — full color logo</title>
+
+  <!-- ===== Icon: "M" monogram with sprouting leaf ===== -->
+  <g transform="translate(24,40)">
+    <!-- M strokes (centerline stroked for crisp, even weight) -->
+    <path d="M 6 116 L 6 6 L 58 64 L 110 6 L 110 116"
+          fill="none" stroke="#1F3D2B" stroke-width="15"
+          stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Leaf / sprout growing from the M's valley (gold) -->
+    <path d="M 58 96 C 42 78, 42 50, 58 30 C 74 50, 74 78, 58 96 Z"
+          fill="#C8902F"/>
+    <!-- Leaf vein (negative gap) -->
+    <path d="M 58 90 L 58 40" fill="none" stroke="#1F3D2B" stroke-width="3.5"
+          stroke-linecap="round"/>
+  </g>
+
+  <!-- ===== Wordmark ===== -->
+  <g transform="translate(190,0)">
+    <text x="0" y="108"
+          font-family="'Cormorant Garamond','Playfair Display',Georgia,'Times New Roman',serif"
+          font-size="92" font-weight="600" letter-spacing="1"
+          fill="#2E211A">Merrill</text>
+    <text x="4" y="160"
+          font-family="'Cormorant Garamond','Playfair Display',Georgia,serif"
+          font-size="46" font-weight="600" letter-spacing="9"
+          fill="#1F3D2B">FOODS</text>
+  </g>
+</svg>

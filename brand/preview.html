@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Merrill Foods — Logo Preview</title>
+<style>
+  :root{
+    --green:#1F3D2B; --gold:#C8902F; --espresso:#2E211A; --cream:#F5EFE2;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; font-family:Georgia, 'Times New Roman', serif;
+    background:var(--cream); color:var(--espresso);
+  }
+  header{padding:48px 32px 16px; text-align:center}
+  header h1{margin:0 0 6px; font-weight:600; letter-spacing:1px}
+  header p{margin:0; color:#6b5d52; font-style:italic}
+  .grid{
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+    gap:24px; padding:32px; max-width:1100px; margin:0 auto;
+  }
+  .card{
+    border:1px solid #e3d9c6; border-radius:14px; overflow:hidden;
+    background:#fff; box-shadow:0 1px 3px rgba(0,0,0,.04);
+  }
+  .card .stage{display:flex; align-items:center; justify-content:center; padding:28px; min-height:170px}
+  .card .stage.cream{background:var(--cream)}
+  .card .stage.dark{background:var(--green)}
+  .card .stage img{width:100%; max-width:340px; height:auto}
+  .card .label{
+    padding:12px 18px; border-top:1px solid #efe7d8; font-size:13px;
+    letter-spacing:1px; text-transform:uppercase; color:#8a7c6e;
+    font-family:Arial, sans-serif;
+  }
+  .swatches{display:flex; gap:14px; flex-wrap:wrap; justify-content:center; padding:8px 32px 56px}
+  .sw{display:flex; flex-direction:column; align-items:center; font-family:Arial,sans-serif; font-size:12px; color:#6b5d52}
+  .chip{width:64px; height:64px; border-radius:10px; border:1px solid rgba(0,0,0,.08); margin-bottom:6px}
+  .favs{display:flex; gap:18px; align-items:center; justify-content:center}
+  .favs img{height:auto}
+</style>
+</head>
+<body>
+  <header>
+    <h1>Merrill Foods</h1>
+    <p>Specialty food distribution — brand mark system</p>
+  </header>
+
+  <div class="grid">
+    <div class="card">
+      <div class="stage cream"><img src="logo-full-color.svg" alt="Full color logo"></div>
+      <div class="label">Primary · Full color</div>
+    </div>
+    <div class="card">
+      <div class="stage dark"><img src="logo-reversed.svg" alt="Reversed logo"></div>
+      <div class="label">Reversed · White on dark</div>
+    </div>
+    <div class="card">
+      <div class="stage cream"><img src="logo-monochrome.svg" alt="Single color logo"></div>
+      <div class="label">Single color · Monochrome</div>
+    </div>
+    <div class="card">
+      <div class="stage cream">
+        <div class="favs">
+          <img src="favicon.svg" width="96" alt="App icon 96">
+          <img src="favicon.svg" width="48" alt="App icon 48">
+          <img src="favicon.svg" width="32" alt="App icon 32">
+          <img src="favicon.svg" width="16" alt="Favicon 16">
+        </div>
+      </div>
+      <div class="label">Icon · Favicon (96 / 48 / 32 / 16 px)</div>
+    </div>
+  </div>
+
+  <div class="swatches">
+    <div class="sw"><div class="chip" style="background:#1F3D2B"></div>Forest #1F3D2B</div>
+    <div class="sw"><div class="chip" style="background:#C8902F"></div>Gold #C8902F</div>
+    <div class="sw"><div class="chip" style="background:#2E211A"></div>Espresso #2E211A</div>
+    <div class="sw"><div class="chip" style="background:#F5EFE2"></div>Cream #F5EFE2</div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,229 @@
+---
+import { company, nav } from '../site.config';
+
+/**
+ * Navbar — sticky, transparent-over-hero, gains a solid background on scroll.
+ * Pass `overlay` on pages with a full-bleed hero (home); leave false elsewhere
+ * so the bar is legible over a cream background from the first paint.
+ */
+interface Props {
+  overlay?: boolean;
+}
+const { overlay = false } = Astro.props;
+
+const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
+---
+
+<header
+  id="site-header"
+  data-overlay={overlay ? 'true' : 'false'}
+  class:list={[
+    'fixed inset-x-0 top-0 z-50 transition-all duration-300',
+    overlay ? 'is-overlay' : 'is-solid',
+  ]}
+>
+  <nav
+    class="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 sm:px-8"
+    aria-label="Primary"
+  >
+    <!-- Brand -->
+    <a href="/" class="nav-brand flex items-center" aria-label={`${company.name} — home`}>
+      <!-- Full-color logo for the solid (light) bar -->
+      <img
+        src="/logo-full-color.svg"
+        alt={company.name}
+        width="600"
+        height="200"
+        class="logo-solid h-8 w-auto sm:h-9"
+      />
+      <!-- Light logo for the transparent bar over the hero -->
+      <img
+        src="/logo-cream.svg"
+        alt=""
+        aria-hidden="true"
+        width="600"
+        height="200"
+        class="logo-overlay h-8 w-auto sm:h-9"
+      />
+    </a>
+
+    <!-- Desktop links -->
+    <ul class="hidden items-center gap-8 md:flex">
+      {
+        nav.map((link) => {
+          const path = link.href.replace(/\/$/, '') || '/';
+          const active = path === currentPath;
+          return (
+            <li>
+              <a
+                href={link.href}
+                aria-current={active ? 'page' : undefined}
+                class:list={[
+                  'nav-link text-sm font-medium transition-colors',
+                  active && 'is-active',
+                ]}
+              >
+                {link.label}
+              </a>
+            </li>
+          );
+        })
+      }
+      <li>
+        <a
+          href="/contact"
+          class="rounded-full bg-amber px-5 py-2 text-sm font-semibold text-espresso transition-colors hover:bg-amber-600"
+        >
+          Become a Partner
+        </a>
+      </li>
+    </ul>
+
+    <!-- Mobile toggle -->
+    <button
+      id="nav-toggle"
+      class="nav-link inline-flex h-10 w-10 items-center justify-center rounded-md md:hidden"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+      aria-label="Open menu"
+    >
+      <svg
+        id="nav-icon-open"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+      >
+        <line x1="4" y1="7" x2="20" y2="7"></line>
+        <line x1="4" y1="12" x2="20" y2="12"></line>
+        <line x1="4" y1="17" x2="20" y2="17"></line>
+      </svg>
+      <svg
+        id="nav-icon-close"
+        class="hidden"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+      >
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+        <line x1="6" y1="18" x2="18" y2="6"></line>
+      </svg>
+    </button>
+  </nav>
+
+  <!-- Mobile menu -->
+  <div
+    id="mobile-menu"
+    class="hidden border-t border-cream-200 bg-cream md:hidden"
+  >
+    <ul class="space-y-1 px-6 py-4">
+      {
+        nav.map((link) => (
+          <li>
+            <a
+              href={link.href}
+              class="block rounded-lg px-3 py-3 text-base font-medium text-ink hover:bg-cream-200"
+            >
+              {link.label}
+            </a>
+          </li>
+        ))
+      }
+      <li class="pt-2">
+        <a
+          href="/contact"
+          class="block rounded-full bg-amber px-5 py-3 text-center text-base font-semibold text-espresso"
+        >
+          Become a Partner
+        </a>
+      </li>
+    </ul>
+  </div>
+</header>
+
+<style>
+  /* Overlay state: transparent bar with light text, sitting over the hero. */
+  #site-header.is-overlay {
+    background-color: transparent;
+  }
+  #site-header.is-overlay .nav-brand,
+  #site-header.is-overlay .nav-link {
+    color: var(--color-cream);
+  }
+  #site-header.is-overlay .nav-link.is-active {
+    color: var(--color-amber);
+  }
+
+  /* Solid state: applied on scroll, or on non-hero pages from the start. */
+  #site-header.is-solid {
+    background-color: color-mix(in srgb, var(--color-cream) 88%, transparent);
+    backdrop-filter: saturate(1.4) blur(10px);
+    box-shadow: 0 1px 0 0 color-mix(in srgb, var(--color-espresso) 10%, transparent);
+  }
+  #site-header.is-solid .nav-brand,
+  #site-header.is-solid .nav-link {
+    color: var(--color-espresso);
+  }
+  #site-header.is-solid .nav-link:hover {
+    color: var(--color-amber-600);
+  }
+  #site-header.is-solid .nav-link.is-active {
+    color: var(--color-amber-600);
+  }
+
+  /* Logo swap: show the right lockup for the current bar state. */
+  .logo-overlay {
+    display: none;
+  }
+  #site-header.is-overlay .logo-overlay {
+    display: block;
+  }
+  #site-header.is-overlay .logo-solid {
+    display: none;
+  }
+</style>
+
+<script>
+  // Transparent → solid on scroll (only meaningful for overlay/hero pages).
+  const header = document.getElementById('site-header');
+  const isOverlayPage = header?.dataset.overlay === 'true';
+
+  const applyScrollState = () => {
+    if (!header || !isOverlayPage) return;
+    const scrolled = window.scrollY > 24;
+    header.classList.toggle('is-solid', scrolled);
+    header.classList.toggle('is-overlay', !scrolled);
+  };
+  applyScrollState();
+  window.addEventListener('scroll', applyScrollState, { passive: true });
+
+  // Mobile menu toggle.
+  const toggle = document.getElementById('nav-toggle');
+  const menu = document.getElementById('mobile-menu');
+  const iconOpen = document.getElementById('nav-icon-open');
+  const iconClose = document.getElementById('nav-icon-close');
+
+  toggle?.addEventListener('click', () => {
+    const open = menu?.classList.toggle('hidden') === false;
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    iconOpen?.classList.toggle('hidden', open);
+    iconClose?.classList.toggle('hidden', !open);
+    // While the mobile menu is open, force a legible (solid) bar.
+    if (isOverlayPage && header) {
+      if (open) {
+        header.classList.add('is-solid');
+        header.classList.remove('is-overlay');
+      } else {
+        applyScrollState();
+      }
+    }
+  });
+</script>

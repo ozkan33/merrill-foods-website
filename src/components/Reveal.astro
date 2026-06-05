@@ -1,0 +1,19 @@
+---
+/**
+ * Reveal — wraps content in a scroll-reveal element.
+ * Animation is added only when JS runs (see BaseLayout's observer) and is
+ * disabled under prefers-reduced-motion. `delay` staggers grouped items (ms).
+ */
+interface Props {
+  as?: keyof HTMLElementTagNameMap;
+  delay?: number;
+  class?: string;
+}
+
+const { as = 'div', delay = 0, class: className = '' } = Astro.props;
+const Tag = as as any;
+---
+
+<Tag class={`reveal ${className}`} style={`--reveal-delay:${delay}ms`}>
+  <slot />
+</Tag>

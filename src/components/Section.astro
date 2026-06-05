@@ -1,0 +1,47 @@
+---
+/**
+ * Section — consistent vertical rhythm + centered max-width container.
+ * Pass `tone` to set the background, `width` to widen/narrow the container.
+ */
+interface Props {
+  id?: string;
+  tone?: 'cream' | 'forest' | 'espresso' | 'transparent';
+  width?: 'default' | 'wide' | 'narrow';
+  class?: string;
+  /** Renders the inner container, or set false to control layout yourself. */
+  contained?: boolean;
+}
+
+const {
+  id,
+  tone = 'cream',
+  width = 'default',
+  class: className = '',
+  contained = true,
+} = Astro.props;
+
+const tones: Record<string, string> = {
+  cream: 'bg-cream text-ink',
+  forest: 'bg-forest text-cream',
+  espresso: 'bg-espresso text-cream',
+  transparent: '',
+};
+
+const widths: Record<string, string> = {
+  narrow: 'max-w-3xl',
+  default: 'max-w-6xl',
+  wide: 'max-w-7xl',
+};
+---
+
+<section id={id} class={`py-16 sm:py-24 lg:py-28 ${tones[tone]} ${className}`}>
+  {
+    contained ? (
+      <div class={`mx-auto w-full px-6 sm:px-8 ${widths[width]}`}>
+        <slot />
+      </div>
+    ) : (
+      <slot />
+    )
+  }
+</section>

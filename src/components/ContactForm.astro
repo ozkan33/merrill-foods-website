@@ -1,0 +1,105 @@
+---
+import { form, company } from '../site.config';
+import Button from './Button.astro';
+
+const fieldClass =
+  'w-full rounded-lg border border-cream-200 bg-white px-4 py-3 text-ink shadow-sm transition-colors placeholder:text-ink/40 focus:border-amber focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber';
+const labelClass = 'mb-1.5 block text-sm font-medium text-espresso';
+---
+
+<form
+  id="contact-form"
+  action={form.endpoint}
+  method="POST"
+  class="space-y-5"
+>
+  <!-- Web3Forms access key (required). TODO: set in src/site.config.ts -->
+  <input type="hidden" name="access_key" value={form.accessKey} />
+  <input type="hidden" name="subject" value="New partnership inquiry — website" />
+  <input type="hidden" name="from_name" value={`${company.name} Website`} />
+  <!-- Honeypot anti-spam field (must stay empty). -->
+  <input
+    type="checkbox"
+    name="botcheck"
+    class="hidden"
+    style="display:none"
+    tabindex="-1"
+    autocomplete="off"
+    aria-hidden="true"
+  />
+
+  <div class="grid gap-5 sm:grid-cols-2">
+    <div>
+      <label class={labelClass} for="name">Your name</label>
+      <input class={fieldClass} type="text" id="name" name="name" autocomplete="name" required placeholder="Jordan Rivera" />
+    </div>
+    <div>
+      <label class={labelClass} for="business">Business name</label>
+      <input class={fieldClass} type="text" id="business" name="business_name" autocomplete="organization" required placeholder="Cedar & Vine" />
+    </div>
+  </div>
+
+  <div class="grid gap-5 sm:grid-cols-2">
+    <div>
+      <label class={labelClass} for="email">Email</label>
+      <input class={fieldClass} type="email" id="email" name="email" autocomplete="email" required placeholder="you@business.com" />
+    </div>
+    <div>
+      <label class={labelClass} for="business_type">Business type</label>
+      <select class={fieldClass} id="business_type" name="business_type" required>
+        <option value="" disabled selected>Select one…</option>
+        {form.businessTypes.map((t) => <option value={t}>{t}</option>)}
+      </select>
+    </div>
+  </div>
+
+  <div>
+    <label class={labelClass} for="message">How can we help?</label>
+    <textarea class={fieldClass} id="message" name="message" rows="5" required placeholder="Tell us about your business and the kinds of products you're looking for…"></textarea>
+  </div>
+
+  <div class="flex flex-wrap items-center gap-4">
+    <Button type="submit" variant="solid">Send inquiry</Button>
+    <p id="form-status" class="text-sm" role="status" aria-live="polite"></p>
+  </div>
+</form>
+
+<script>
+  // Progressive enhancement: submit via fetch so the visitor stays on-page and
+  // sees inline success/error feedback. Falls back to a normal POST without JS.
+  const formEl = document.getElementById('contact-form') as HTMLFormElement | null;
+  const status = document.getElementById('form-status');
+
+  formEl?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!status) return;
+
+    const submitBtn = formEl.querySelector('button[type="submit"]') as HTMLButtonElement | null;
+    status.textContent = 'Sending…';
+    status.className = 'text-sm text-ink/60';
+    if (submitBtn) submitBtn.disabled = true;
+
+    try {
+      const res = await fetch(formEl.action, {
+        method: 'POST',
+        body: new FormData(formEl),
+        headers: { Accept: 'application/json' },
+      });
+      const data = await res.json().catch(() => ({}));
+
+      if (res.ok && (data.success === undefined || data.success)) {
+        formEl.reset();
+        status.textContent = 'Thanks — we’ll be in touch within one business day.';
+        status.className = 'text-sm font-medium text-moss';
+      } else {
+        throw new Error(data.message || 'Submission failed');
+      }
+    } catch (err) {
+      status.textContent =
+        'Something went wrong. Please email us directly and we’ll sort it out.';
+      status.className = 'text-sm font-medium text-amber-600';
+    } finally {
+      if (submitBtn) submitBtn.disabled = false;
+    }
+  });
+</script>

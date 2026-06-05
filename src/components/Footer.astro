@@ -1,0 +1,75 @@
+---
+import { company, contact, nav, social } from '../site.config';
+const year = new Date().getFullYear();
+const { address } = contact;
+---
+
+<footer class="bg-espresso text-cream/80">
+  <div class="mx-auto grid max-w-7xl gap-12 px-6 py-16 sm:px-8 md:grid-cols-[1.5fr_1fr_1fr]">
+    <!-- Brand + blurb -->
+    <div>
+      <a href="/" class="inline-block" aria-label={`${company.name} — home`}>
+        <img src="/logo-cream.svg" alt={company.name} width="600" height="200" class="h-11 w-auto" />
+      </a>
+      <p class="mt-4 max-w-sm text-sm leading-relaxed text-cream/70">
+        {company.tagline}.
+      </p>
+    </div>
+
+    <!-- Nav -->
+    <nav aria-label="Footer">
+      <h2 class="text-xs font-semibold uppercase tracking-widest text-amber">
+        Explore
+      </h2>
+      <ul class="mt-4 space-y-2 text-sm">
+        {
+          nav.map((link) => (
+            <li>
+              <a class="transition-colors hover:text-cream" href={link.href}>
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <!-- Contact -->
+    <div>
+      <h2 class="text-xs font-semibold uppercase tracking-widest text-amber">
+        Get in touch
+      </h2>
+      <address class="mt-4 space-y-2 text-sm not-italic leading-relaxed text-cream/70">
+        <p>
+          {address.line1}<br />
+          {address.line2 && <>{address.line2}<br /></>}
+          {address.city}, {address.state} {address.zip}
+        </p>
+        <p>
+          <a class="transition-colors hover:text-cream" href={contact.phoneHref}>
+            {contact.phone}
+          </a>
+        </p>
+        <p>
+          <a class="transition-colors hover:text-cream" href={`mailto:${contact.email}`}>
+            {contact.email}
+          </a>
+        </p>
+      </address>
+    </div>
+  </div>
+
+  <div
+    class="border-t border-cream/10"
+  >
+    <div
+      class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-6 py-6 text-xs text-cream/50 sm:flex-row sm:px-8"
+    >
+      <p>&copy; {year} {company.name}. All rights reserved.</p>
+      <div class="flex gap-5">
+        <a class="transition-colors hover:text-cream" href={social.instagram} aria-label="Instagram" rel="noopener" target="_blank">Instagram</a>
+        <a class="transition-colors hover:text-cream" href={social.linkedin} aria-label="LinkedIn" rel="noopener" target="_blank">LinkedIn</a>
+      </div>
+    </div>
+  </div>
+</footer>

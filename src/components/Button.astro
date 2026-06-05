@@ -1,0 +1,47 @@
+---
+/**
+ * Button — renders as <a> when `href` is given, otherwise <button>.
+ * Variants: primary (amber), solid (forest), outline (on dark / on light auto).
+ */
+interface Props {
+  href?: string;
+  variant?: 'primary' | 'solid' | 'outline';
+  type?: 'button' | 'submit';
+  class?: string;
+  [key: string]: unknown;
+}
+
+const {
+  href,
+  variant = 'primary',
+  type = 'button',
+  class: className = '',
+  ...rest
+} = Astro.props;
+
+const base =
+  'inline-flex items-center justify-center gap-2 rounded-full px-7 py-3 text-sm font-semibold tracking-wide transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-amber';
+
+const variants: Record<string, string> = {
+  primary:
+    'bg-amber text-espresso shadow-sm hover:bg-amber-600 hover:-translate-y-0.5 hover:shadow-md active:translate-y-0',
+  solid:
+    'bg-forest text-cream hover:bg-forest-700 hover:-translate-y-0.5 hover:shadow-md active:translate-y-0',
+  outline:
+    'border border-current text-current hover:bg-current/10 hover:-translate-y-0.5',
+};
+
+const cls = `${base} ${variants[variant]} ${className}`;
+---
+
+{
+  href ? (
+    <a href={href} class={cls} {...rest}>
+      <slot />
+    </a>
+  ) : (
+    <button type={type} class={cls} {...rest}>
+      <slot />
+    </button>
+  )
+}

@@ -1,0 +1,43 @@
+---
+/**
+ * Card — feature card with optional inline-SVG icon (24x24 path data).
+ */
+interface Props {
+  title: string;
+  icon?: string;
+  class?: string;
+}
+
+const { title, icon, class: className = '' } = Astro.props;
+---
+
+<article
+  class={`group relative flex h-full flex-col gap-4 rounded-2xl border border-cream-200 bg-white/60 p-7 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-amber/50 hover:shadow-lg ${className}`}
+>
+  {
+    icon && (
+      <span
+        class="flex h-12 w-12 items-center justify-center rounded-xl bg-forest/8 text-forest transition-colors duration-300 group-hover:bg-amber/15 group-hover:text-amber-600"
+        aria-hidden="true"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.6"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d={icon} />
+        </svg>
+      </span>
+    )
+  }
+  <h3 class="text-xl font-semibold text-espresso">{title}</h3>
+  <p class="text-[0.975rem] leading-relaxed text-ink/75">
+    <slot />
+  </p>
+</article>
